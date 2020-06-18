@@ -1,9 +1,4 @@
 const express = require("express");
-const loggerMiddleWare = require("morgan");
-const corsMiddleWare = require("cors");
-const { PORT } = require("./config/constants");
-const authRouter = require("./routers/auth");
-const authMiddleWare = require("./auth/middleware");
 
 const app = express();
 
@@ -33,6 +28,7 @@ const app = express();
  *
  */
 
+const loggerMiddleWare = require("morgan");
 app.use(loggerMiddleWare("dev"));
 
 /**
@@ -65,6 +61,7 @@ app.use(bodyParserMiddleWare);
  *
  */
 
+const corsMiddleWare = require("cors");
 app.use(corsMiddleWare());
 
 /**
@@ -113,6 +110,8 @@ if (process.env.DELAY) {
  *
  */
 
+const authMiddleWare = require("./auth/middleware");
+
 /**
  * Routes
  *
@@ -120,7 +119,7 @@ if (process.env.DELAY) {
  */
 
 // GET endpoint for testing purposes, can be removed
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   res.send("Hi from express");
 });
 
@@ -150,9 +149,17 @@ app.post("/authorized_post_request", authMiddleWare, (req, res) => {
   });
 });
 
+const authRouter = require("./routers/auth");
 app.use("/", authRouter);
 
+const postRouter = require("./routers/post");
+app.use("/posts", postRouter);
+
+const mailRouter = require("./routers/sendMail");
+app.use("/sendMail", authMiddleWare, mailRouter);
+
 // Listen for connections on specified port (default is port 4000)
+const { PORT } = require("./config/constants");
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
