@@ -155,8 +155,14 @@ app.use("/", authRouter);
 const postRouter = require("./routers/post");
 app.use("/posts", postRouter);
 
+const myPostsRouter = require("./routers/myposts");
+app.use("/user", myPostsRouter);
+
 const mailRouter = require("./routers/sendMail");
 app.use("/sendMail", authMiddleWare, mailRouter);
+
+const pushNotificationRouter = require("./routers/notification");
+app.use("/", pushNotificationRouter);
 
 // Listen for connections on specified port (default is port 4000)
 const { PORT } = require("./config/constants");
