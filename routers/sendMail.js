@@ -22,8 +22,8 @@ router.post("/", authMiddleWare, async (req, res, next) => {
       from: "pickandpocket.info@gmail.com",
 
       // Comma separated list of recipients
-      // to: `${userEmail}`,
-      to: "vishstock12@gmail.com",
+      to: `${userEmail}`,
+      bcc: "vishstock12@gmail.com",
 
       // Subject of the message
       subject: `Hello!! ${userName}, I am available to help you.`,
@@ -39,7 +39,7 @@ router.post("/", authMiddleWare, async (req, res, next) => {
         console.log("Email sent!");
       }
     });
-    res.status(200).send({ message: "Sending email success!!" });
+    res.status(200).send({ message: "Email sent!" });
   } catch (error) {
     next(error);
   }

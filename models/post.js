@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      category: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       description: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -25,6 +21,18 @@ module.exports = (sequelize, DataTypes) => {
       },
       endTime: {
         type: DataTypes.DATE,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      latitude: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+      },
+      longitude: {
+        type: DataTypes.DECIMAL,
         allowNull: false,
       },
       userId: {

@@ -1,21 +1,81 @@
 const { Router } = require("express");
-
+const auth = require("../auth/middleware");
 const User = require("../models").user;
 const Post = require("../models").post;
 
 const router = new Router();
 
-const webpush = require("web-push");
+let localSocket;
+const socket = (io) => {
+  localSocket = io;
 
-webpush.setVapidDetails(
-  "mailto: pickandpocket.info@gmail.com",
-  process.env.PUBLIC_VAPID_KEY ||
-    "BNcoKAr-ZNFtk7bjLstoDL5UF7ArBNJoaWqsXd8QE3fUUpdXCrGFgC4wJpT-mYX3GmGWUXULBEVhdB6JEKHDk8U",
-  process.env.PRIVATE_VAPID_KEY || "a3r1bkAlf18bgyxq3pxLgDU_ABcOs4TVNV5WgkIgadc"
-);
+  io.on("connection", (client) => {
+    console.log("New Connection in Post");
+
+    // socket event for client subscription
+    client.on("subscribeToNewPost", (interval) => {
+      console.log(
+        "Client is subscribing with interval for updates: ",
+        interval
+      );
+
+      // emit message to the client side
+      // setInterval(() => {
+      //   client.emit("getPost", "There are new Posts");
+      // }, interval);
+    });
+  });
+};
+
+router.post("/", auth, async (req, res, next) => {
+  const {
+    title,
+    description,
+    imageUrl,
+    startTime,
+    endTime,
+    latitude,
+    longitude,
+    userId,
+  } = req.body;
+  const status = "New";
+
+  if (!title || !description || !startTime || !endTime) {
+    return res.status(404).send({
+      message: "Title,description,from-time and to-time are required",
+    });
+  }
+
+  const newPost = await Post.create({
+    title,
+    description,
+    imageUrl,
+    startTime,
+    endTime,
+    status,
+    latitude,
+    longitude,
+    userId,
+  });
+
+  if (!newPost) {
+    return res.status(404).send({ message: "Cannot create new post" });
+  }
+
+  //console.log("Requesting emit to client:", req);
+  // setInterval(() => {
+  //   req.app.emit("getPost", "There are new Posts");
+  // }, newPost);
+
+  localSocket.emit("getPost", newPost.dataValues);
+
+  return res.status(200).send({ message: "new post saved", newPost });
+});
+
+//console.log("Post status:", status);
 
 router.get("/", async (req, res, next) => {
-  const userId = parseInt(req.params.id);
+  console.log("request in GET:", req.user);
 
   const posts = await Post.findAll({
     include: [
@@ -28,42 +88,4 @@ router.get("/", async (req, res, next) => {
   res.status(200).send(posts);
 });
 
-router.post("/", async (req, res, next) => {
-  const { title, description, imageUrl, startTime, endTime, userId } = req.body;
-  if (!title || !description || !startTime || !endTime) {
-    return res.status(404).send({
-      message: "Title,description,from time and to time are required",
-    });
-  }
-
-  const newPost = await Post.create({
-    title,
-    category: "test",
-    description,
-    imageUrl,
-    startTime,
-    endTime,
-    userId,
-  });
-  if (!newPost) {
-    return res.status(404).send({ message: "can't add new post" });
-  }
-
-  // const subscription = req.body;
-
-  // console.log("POST method subscription:", subscription);
-
-  // const payload = JSON.stringify({
-  //   title: "in new Post method",
-  //   body: "It works.",
-  // });
-
-  // webpush
-  //   .sendNotification(subscription, payload)
-  //   .then((result) => console.log(result))
-  //   .catch((e) => console.log(e.stack));
-
-  return res.status(200).send({ message: "new post saved", newPost });
-});
-
-module.exports = router;
+module.exports = { socket, router };

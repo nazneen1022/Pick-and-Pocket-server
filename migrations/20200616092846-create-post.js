@@ -12,10 +12,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      category: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
       description: {
         allowNull: false,
         type: Sequelize.TEXT,
@@ -31,6 +27,19 @@ module.exports = {
       endTime: {
         allowNull: false,
         type: Sequelize.DATE,
+      },
+      status: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        defaultValue: "New",
+      },
+      latitude: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      longitude: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
       },
       userId: {
         allowNull: false,

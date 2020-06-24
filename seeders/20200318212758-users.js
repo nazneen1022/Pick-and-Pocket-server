@@ -16,14 +16,6 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          firstName: "dummy",
-          lastName: "dummy",
-          email: "dummy@dummy.com",
-          password: bcrypt.hashSync("dummy1234", SALT_ROUNDS),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
           firstName: "testuser2",
           lastName: "testuser2",
           email: "testuser2@aa.a",
