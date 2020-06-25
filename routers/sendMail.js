@@ -5,7 +5,7 @@ const authMiddleWare = require("../auth/middleware");
 const router = new Router();
 
 router.post("/", authMiddleWare, async (req, res, next) => {
-  const { userEmail, userName, message } = req.body;
+  const { title, userEmail, userName, message } = req.body;
   try {
     // Create a SMTP transporter object
     let transporter = nodemailer.createTransport({
@@ -13,7 +13,7 @@ router.post("/", authMiddleWare, async (req, res, next) => {
       auth: {
         // in order for this to work, the user MUST allow "Less secure app" AND disable two-step verification on Google Account
         user: "pickandpocket.info@gmail.com", // gmail
-        pass: "MomDad$$", // password
+        pass: "PickandPocketservice$$", // password
       },
     });
 
@@ -26,7 +26,7 @@ router.post("/", authMiddleWare, async (req, res, next) => {
       bcc: "vishstock12@gmail.com",
 
       // Subject of the message
-      subject: `Hello!! ${userName}, I am available to help you.`,
+      subject: `Hello!! ${userName}, Regarding work task '${title}'.`,
 
       // plaintext body
       text: `${message}`,

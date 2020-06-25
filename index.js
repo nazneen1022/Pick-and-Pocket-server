@@ -8,7 +8,7 @@ const app = express();
 
 require("dotenv").config();
 
-console.log("process.env:", process.env);
+//console.log("process.env:", process.env);
 
 const loggerMiddleWare = require("morgan");
 app.use(loggerMiddleWare("dev"));
@@ -65,6 +65,6 @@ const server = app.listen(PORT, () => {
 
 // attach socket to the node server
 const io = require("socket.io").listen(server);
-require("./socket")(io);
+//require("./socket")(io);
 
 require("./routers/post").socket(io);

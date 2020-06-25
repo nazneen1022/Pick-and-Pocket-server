@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const Sequelize = require("sequelize");
 const auth = require("../auth/middleware");
 const User = require("../models").user;
 const Post = require("../models").post;
@@ -78,6 +79,7 @@ router.get("/", async (req, res, next) => {
   console.log("request in GET:", req.user);
 
   const posts = await Post.findAll({
+    where: { status: { [Sequelize.Op.not]: "Completed" } },
     include: [
       { model: User, attributes: ["email"], order: [["createdAt", "DESC"]] },
     ],
