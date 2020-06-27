@@ -63,7 +63,7 @@ router.post("/", auth, async (req, res, next) => {
     return res.status(404).send({ message: "Cannot create new post" });
   }
 
-  //console.log("Requesting emit to client:", req);
+  // console.log("Requesting emit to client:", req.app.locals);
   // setInterval(() => {
   //   req.app.emit("getPost", "There are new Posts");
   // }, newPost);
