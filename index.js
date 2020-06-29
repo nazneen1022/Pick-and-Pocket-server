@@ -10,20 +10,20 @@ require("dotenv").config();
 
 //console.log("process.env:", process.env);
 
-const loggerMiddleWare = require("morgan");
-app.use(loggerMiddleWare("dev"));
-
-const bodyParserMiddleWare = express.json();
-app.use(bodyParserMiddleWare);
-
 const corsMiddleWare = require("cors");
 //app.use(corsMiddleWare());
 app.use(
   corsMiddleWare({
     credentials: true,
-    origin: "http://localhost:3000", // URL of the react (Frontend) app
+    origin: "https://pick-and-pocket.netlify.app", // URL of the react (Frontend) app
   })
 );
+
+const loggerMiddleWare = require("morgan");
+app.use(loggerMiddleWare("dev"));
+
+const bodyParserMiddleWare = express.json();
+app.use(bodyParserMiddleWare);
 
 if (process.env.DELAY) {
   app.use((req, res, next) => {
