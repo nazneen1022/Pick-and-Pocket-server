@@ -1,6 +1,9 @@
 {
   "development": {
-    "url": "YOUR_ELEPHANTSQL_URL_HERE",
+    "username": "postgres",
+    "password": "secret",
+    "database": "pick-and-pocket_development",
+    "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": "0"
   },
@@ -13,11 +16,6 @@
     "operatorsAliases": "0"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "postgres",
-    "operatorsAliases": "0"
+    "use_env_variable": "DATABASE_URL"
   }
 }
