@@ -1,6 +1,6 @@
 ## 👩🏻‍💻 Pick and Pocket 💰
 
-This main idea of this project is about picking short-time works posted by the requesters, that can be accomplished within a day and pocket/earn real money besides helping them finish their work sooner. Also increase the communal bond 👫 of supporting eachother either with some work to share or earn some money in their free time.
+This main idea of this project is about picking short-time works posted by the requesters, that can be accomplished within a day and pocket/earn real money besides helping them finish their work sooner. Also increase the communal bond 👫 of supporting eachother either with some work to share or earn/pocket some money in their free time.
 
 With Pick and Pocket, you will have a platform to post your work for sharing or pick up some short-time works posted by others to make some money in your free time.
 
